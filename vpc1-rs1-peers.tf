@@ -51,7 +51,7 @@ resource "aws_vpc_route_server_peer" "subnet1_ep1_rosa_router1" {
   peer_address = data.external.wait_for_router1.result.private_ip
   depends_on = [module.hcp]
   bgp_options {
-    peer_asn = 65001
+    peer_asn = var.rosa_bgp_asn
     peer_liveness_detection = "bgp-keepalive" #need to check why bfd isnt working
   }
   tags = merge(
@@ -66,7 +66,7 @@ resource "aws_vpc_route_server_peer" "subnet1_ep2_rosa_router1" {
   peer_address = data.external.wait_for_router1.result.private_ip
   depends_on = [module.hcp]
   bgp_options {
-    peer_asn = 65001
+    peer_asn = var.rosa_bgp_asn
     peer_liveness_detection = "bgp-keepalive" #need to check why bfd isnt working
   }
   tags = merge(
@@ -82,7 +82,7 @@ resource "aws_vpc_route_server_peer" "subnet2_ep1_rosa_router2" {
   peer_address = data.external.wait_for_router2.result.private_ip
   depends_on = [module.hcp]
   bgp_options {
-    peer_asn = 65001
+    peer_asn = var.rosa_bgp_asn
     peer_liveness_detection = "bgp-keepalive" #need to check why bfd isnt working
   }
   tags = merge(
@@ -97,7 +97,7 @@ resource "aws_vpc_route_server_peer" "subnet2_ep2_rosa_router2" {
   peer_address = data.external.wait_for_router2.result.private_ip
   depends_on = [module.hcp]
   bgp_options {
-    peer_asn = 65001
+    peer_asn = var.rosa_bgp_asn
     peer_liveness_detection = "bgp-keepalive" #need to check why bfd isnt working
   }
   tags = merge(
@@ -113,7 +113,7 @@ resource "aws_vpc_route_server_peer" "subnet3_ep1_rosa_router3" {
   peer_address = data.external.wait_for_router3.result.private_ip
   depends_on = [module.hcp]
   bgp_options {
-    peer_asn = 65001
+    peer_asn = var.rosa_bgp_asn
     peer_liveness_detection = "bgp-keepalive" #need to check why bfd isnt working
   }
   tags = merge(
@@ -128,7 +128,7 @@ resource "aws_vpc_route_server_peer" "subnet3_ep2_rosa_router3" {
   peer_address = data.external.wait_for_router3.result.private_ip
   depends_on = [module.hcp]
   bgp_options {
-    peer_asn = 65001
+    peer_asn = var.rosa_bgp_asn
     peer_liveness_detection = "bgp-keepalive" #need to check why bfd isnt working
   }
   tags = merge(

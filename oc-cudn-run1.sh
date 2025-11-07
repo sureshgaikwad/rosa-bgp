@@ -16,40 +16,40 @@ spec:
       bgp_router: "true"
   bgp:
     routers:
-    - asn: 65001
+    - asn: `echo $(terraform output -raw rosa_bgp_asn)`
       neighbors:
       - address: `echo $(terraform output -raw vpc1-rs1-subnet1-ep1_ip)`
-        asn: 65000
+        asn: `echo $(terraform output -raw vpc1-rs1-asn)`
         disableMP: true
         toReceive:
           allowed:
             mode: all
       - address: `echo $(terraform output -raw vpc1-rs1-subnet1-ep2_ip)`
-        asn: 65000
+        asn: `echo $(terraform output -raw vpc1-rs1-asn)`
         disableMP: true
         toReceive:
           allowed:
             mode: all
       - address: `echo $(terraform output -raw vpc1-rs1-subnet2-ep1_ip)`
-        asn: 65000
+        asn: `echo $(terraform output -raw vpc1-rs1-asn)`
         disableMP: true
         toReceive:
           allowed:
             mode: all
       - address: `echo $(terraform output -raw vpc1-rs1-subnet2-ep2_ip)`
-        asn: 65000
+        asn: `echo $(terraform output -raw vpc1-rs1-asn)`
         disableMP: true
         toReceive:
           allowed:
             mode: all
       - address: `echo $(terraform output -raw vpc1-rs1-subnet3-ep1_ip)`
-        asn: 65000
+        asn: `echo $(terraform output -raw vpc1-rs1-asn)`
         disableMP: true
         toReceive:
           allowed:
             mode: all
       - address: `echo $(terraform output -raw vpc1-rs1-subnet3-ep2_ip)`
-        asn: 65000
+        asn: `echo $(terraform output -raw vpc1-rs1-asn)`
         disableMP: true
         toReceive:
           allowed:

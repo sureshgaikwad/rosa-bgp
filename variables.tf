@@ -17,6 +17,14 @@ variable "rosa_cluster_name" {
   default = "rosa1"
 }
 
+variable "rosa_bgp_asn" {
+  default = "65001"
+}
+
+variable "rs_amazon_side_asn" {
+  default = "65000"
+}
+
 variable "vpc1-rosa_cidr" {
   default = "10.0.0.0/16"
 }

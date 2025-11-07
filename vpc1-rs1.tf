@@ -1,6 +1,6 @@
 # create route server
 resource "aws_vpc_route_server" "vpc1-rs1" {
-  amazon_side_asn           = 65000
+  amazon_side_asn           = var.rs_amazon_side_asn
   persist_routes            = "disable"
   #  persist_routes_duration   = 1
   sns_notifications_enabled = false
@@ -132,4 +132,12 @@ output "vpc1-rs1-subnet3-ep1_ip" {
 }
 output "vpc1-rs1-subnet3-ep2_ip" {
   value = aws_vpc_route_server_endpoint.vpc1-rs1-subnet3-ep2.eni_address
+}
+
+output "vpc1-rs1-asn" {
+  value = aws_vpc_route_server.vpc1-rs1.amazon_side_asn
+}
+
+output "rosa_bgp_asn" {
+  value = var.rosa_bgp_asn
 }

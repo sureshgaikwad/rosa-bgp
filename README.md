@@ -1,4 +1,4 @@
-# Direct routing between ROSA POD network and Amazon VPC
+# Direct routing between ROSA Pod network and Amazon VPC
 This example shows an approach to establish a **Layer 3 (L3) Direct Routing** topology, ensuring bidirectional, non-NATted communication between the OpenShift cluster's Pod Network and all surrounding AWS VPC networks.
 This ensures KubeVirt VMs are treated as natively routable hosts within the Amazon VPC or other connected networks.
 Configuration in this repository manages traffic flow across three distinct private network segments:
@@ -30,7 +30,6 @@ Deployment of ROSA and variours AWS infastructure componets, in summary
         bgp_router = true
         bgp_router_subnet = subnet{1-3}
 - create VPC route server in Local VPC
-    - AS 65000
     - associate with vpc1
     - set propagation to vpc1 route tables
     - deploy 6x RS endpoints in vpc1 - 2 in each private subnet
@@ -76,10 +75,12 @@ project_id = "-bgp" # Optional: appended to AWS resource names after owner for e
 rosa_cluster_name = "myrosa1"
 rosa_openshift_version = "4.20.0"
 rosa_compute_instance_type = "c5.metal"
+rosa_bgp_asn = "65003" # OCP AS number - used for k8s-frr config
 
 vpc1-rosa_cidr = "10.0.0.0/16"
 vpc1-rosa_private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
 vpc1-rosa_public_subnets = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+rs_amazon_side_asn = "65002" # AS number of route server
 
 vpc2-ext_cidr = "192.168.0.0/16"
 vpc2-ext_private_subnets = ["192.168.1.0/24", "192.168.2.0/24", "192.168.3.0/24"]
