@@ -1,0 +1,66 @@
+# ============================================================================
+# OpenShift Virtualization Installation Manifests
+# ============================================================================
+#
+# REFERENCE ONLY - These manifests are automatically applied by oc-virt-install.sh
+#
+# This file is provided for documentation and customization purposes.
+# To customize the installation, you can:
+#   1. Modify this file as needed
+#   2. Apply manually: oc apply -f yamls/oc-apply-virt.yaml
+#   3. Or edit oc-virt-install.sh to use your custom configuration
+#
+# ============================================================================
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-cnv
+  labels:
+    openshift.io/cluster-monitoring: "true"
+
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: kubevirt-hyperconverged-group
+  namespace: openshift-cnv
+spec:
+  targetNamespaces:
+    - openshift-cnv
+
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: kubevirt-hyperconverged
+  namespace: openshift-cnv
+spec:
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  name: kubevirt-hyperconverged
+  channel: stable
+  installPlanApproval: Automatic
+
+---
+apiVersion: hco.kubevirt.io/v1beta1
+kind: HyperConverged
+metadata:
+  name: kubevirt-hyperconverged
+  namespace: openshift-cnv
+spec:
+  # Enable secondary DNS for VM name resolution
+  featureGates:
+    deployKubeSecondaryDNS: true
+
+  # Uncomment to customize resource requirements
+  # resourceRequirements:
+  #   vmiCPUAllocationRatio: 10
+
+  # Uncomment to enable live migration
+  # liveMigrationConfig:
+  #   completionTimeoutPerGiB: 800
+  #   parallelMigrationsPerCluster: 5
+  #   parallelOutboundMigrationsPerNode: 2
+  #   progressTimeout: 150

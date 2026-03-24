@@ -21,10 +21,11 @@ module "router-pool1" {
     }
     additional_security_group_ids = tolist(
       [
-        aws_security_group.rosa_rfc1918_sg.id, 
+        aws_security_group.rosa_rfc1918_sg.id,
         aws_security_group.rosa_allow_from_all_sg.id
       ]
     )
+    ec2_metadata_http_tokens = "required"
   }
 
   subnet_id = module.rosa-vpc.private_subnets[0]
@@ -60,10 +61,11 @@ module "router-pool2" {
     }
     additional_security_group_ids = tolist(
       [
-        aws_security_group.rosa_rfc1918_sg.id, 
+        aws_security_group.rosa_rfc1918_sg.id,
         aws_security_group.rosa_allow_from_all_sg.id
       ]
     )
+    ec2_metadata_http_tokens = "required"
   }
 
   subnet_id = module.rosa-vpc.private_subnets[1]
@@ -98,10 +100,11 @@ module "router-pool3" {
     }
     additional_security_group_ids = tolist(
       [
-        aws_security_group.rosa_rfc1918_sg.id, 
+        aws_security_group.rosa_rfc1918_sg.id,
         aws_security_group.rosa_allow_from_all_sg.id
       ]
     )
+    ec2_metadata_http_tokens = "required"
   }
 
   subnet_id = module.rosa-vpc.private_subnets[2]

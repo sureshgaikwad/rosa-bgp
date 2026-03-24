@@ -65,3 +65,9 @@ variable "azs" {
   type        = list(string)
   default     = []
 }
+
+variable "install_openshift_virt" {
+  description = "Install OpenShift Virtualization operator automatically after cluster deployment"
+  type        = bool
+  default     = true
+}
