@@ -3,9 +3,7 @@ kind: RouteAdvertisements
 metadata:
   name: default
 spec:
-  nodeSelector: 
-    labelSelector:
-      bgp_roter: "true"
+  nodeSelector: {}
   frrConfigurationSelector: {}
   networkSelectors:
     - networkSelectionType: ClusterUserDefinedNetworks
@@ -14,4 +12,4 @@ spec:
           matchLabels:
             advertise: "true"
   advertisements:
-  - "PodNetwork"
+    - PodNetwork
