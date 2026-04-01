@@ -21,6 +21,7 @@
                 * `api.ds-bgp.0w32.p3.openshiftapps.com` - PASS
                 * `kubernetes.default.svc.cluster.local` - FAIL from VM
                     * Note: only this one cluster-internal service name was tested; this does not prove all cluster-internal names fail
+                    * Note: QE was able to nslookup kubernetes.default.svc.cluster.local from within a pod in a CUDN, so this may be specific to VMs.
         * CUDN VM A/B to port on worker node host API service - needs clarification
         * CUDN A VM to CUDN A VM (on the same node) - expected to succeed
         * CUDN A VM to CUDN A VM (on a different node) - expected to succeed - PASS
@@ -31,26 +32,25 @@
             * nc 8081: PASS
             * curl http://10.100.0.11:8081: PASS (HTTP 200 OK)
         * CUDN A VM to CUDN B VM (on the same node) - expected to not succeed - PASS
+            * This was with advertised-udn-isolation-mode set to strict, the default. It's possible there would be a different result if it were set to loose.
         * CUDN A VM to CUDN B VM (on a different node) - expected to not succeed - PASS- expected to succeed
         * Worker node (via `oc debug node`) same host to CUDN A/B VM - expected to not succeed - PASS
             * UDNs are expected to isolate networking even on the same host
         * Worker node (via `oc debug node`) diff host to CUDN A/B VM - expected to not succeed - PASS
+        * CUDN A VM traffic in and out to VPC continue to work after VM is live-migrated - expected to succeed
     * ClusterIP Service with same L2 network
         * CUDN VM to clusterIP(internalTrafficPolicy=Cluster) with same node - expected to succeed - PASS
         * CUDN VM to clusterIP(internalTrafficPolicy=Cluster) with diff node - expected to succeed - PASS
         * CUDN VM to clusterIP(internalTrafficPolicy=Local) with same node - expected to succeed - FAIL
             * Possibly covered by https://redhat.atlassian.net/browse/OCPBUGS-59693
+            * This has also worked for QE in the past with pods, so may be specific to VMs.
         * CUDN VM to clusterIP(internalTrafficPolicy=Local) with diff node - expected to not succeed - PASS
-        * Expose CUDN VM through ClusterIP service, access by CUDN VM on same node - expected to succeed
-        * Expose CUDN VM through ClusterIP service, access by CUDN VM on diff node - expected to succeed
     * NodePort Service with same L2 network
         * CUDN VM to NodePort(ETP=Cluster) with same node - expected to succeed
         * CUDN VM to NodePort(ETP=Cluster) with diff node - expected to succeed
         * CUDN VM to NodePort(ETP=Local) with same node - expected to succeed
         * CUDN VM to NodePort(ETP=Local) with diff node (destionation with two backend pods/VMs, one is same as source VM, one is different) - expected to succeed
         * CUDN VM to NodePort(ETP=Local) with diff node (the source VM is different from any destinaton endpoints nodes) - expected to not succeed
-        * Expose CUDN VM through NodePort service, access by CUDN VM on same node - expected to succeed
-        * Expose CUDN VM through NodePort service, access by CUDN VM on diff node - expected to succeed
     * NodePort service with different L2 network
         * CUDN VM to NodePort(ETP=Cluster) with same node - expected not to succeed
         * CUDN VM to NodePort(ETP=Cluster) with diff node - expected to succeed
@@ -63,7 +63,7 @@
             * No packet loss was observed when ping ran with default 1 second interval
         * CUDN VM to same VPC to transit gateway to EC2 instance in different VPC - expected to succeed - PASS
             * No packet loss was observed when ping ran with default 1 second interval
-       * EC2 instance in same VPC to CUDN VM - expected to succeed - PASS
+        * EC2 instance in same VPC to CUDN VM - expected to succeed - PASS
             * No packet loss was observed when ping ran with default 1 second interval
         * EC2 instance in different VPC to transit gateway to same VPC to CUDN VM - expected to succeed - PASS
             * No packet loss was observed when ping ran with default 1 second interval
@@ -82,4 +82,6 @@
     * Connectivity from EC2 to CUDN VM and CUDN VM to EC2 should be maintained during all of the following scenarios
         * MachinePool scale up - expected to succeed - PASS
         * Cluster upgrade - expected to succeed
-* Route Server gets routes for new nodes - expected to succeed
+* Route server peers during node lifecycle events
+    * Route Server gets peers for new nodes - expected to succeed - PASS
+    * Route server has old peers cleaned up when nodes go away - expected to succeed
