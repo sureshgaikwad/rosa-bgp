@@ -60,7 +60,7 @@ You should get an non-error output for both commands.
 
 ### 2. Clone this repo
 ```bash
-git clone https://github.com/msemanrh/rosa-bgp.git
+git clone https://github.com/sureshgaikwad/rosa-bgp.git
 cd rosa-bgp
 ```
 
@@ -73,7 +73,7 @@ cp terraform.tfvars.example terraform.tfvars`
 
 You might want to update at least "aws_region" and "owner" variable
 ```hcl
-aws_region = "eu-central-1"
+aws_region = "a-=south-1"
 
 # Optional: override AZs if your account/region does not use a/b/c
 # Example for ca-central-1: ["ca-central-1a", "ca-central-1b", "ca-central-1d"]
@@ -87,7 +87,7 @@ tags = {
 }
 
 rosa_cluster_name = "myrosa1"
-rosa_openshift_version = "4.20.0"
+rosa_openshift_version = "4.21.5"
 rosa_compute_instance_type = "c5.metal"
 rosa_bgp_asn = "65003" # OCP AS number - used for k8s-frr config
 
